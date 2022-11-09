@@ -3,6 +3,7 @@
  */
 package problema.carteiro.chines;
 
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
@@ -10,5 +11,33 @@ public class App {
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
+
+        Grafo grafo1 = new Grafo();
+
+        //adciona os vértices
+        grafo1.adVertice(1);
+        grafo1.adVertice(2);
+        grafo1.adVertice(3);
+        grafo1.adVertice(4);
+        grafo1.adVertice(5);
+        grafo1.adVertice(6);
+        grafo1.adVertice(7);
+        grafo1.adVertice(8);
+        grafo1.adVertice(9);
+
+        //adiciona as arestas
+        grafo1.adAresta(1, 2);
+        grafo1.adAresta(1, 4);
+        grafo1.adAresta(1, 7);
+        grafo1.adAresta(2, 5);
+        grafo1.adAresta(2, 6);
+        grafo1.adAresta(2, 3);
+        grafo1.adAresta(3, 4);
+        grafo1.adAresta(5, 6);
+        grafo1.adAresta(7, 8);
+        grafo1.adAresta(7, 9);
+        grafo1.adAresta(8, 9);
+        
+
     }
 }
