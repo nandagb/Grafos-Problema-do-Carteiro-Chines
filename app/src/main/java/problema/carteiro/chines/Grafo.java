@@ -1,9 +1,15 @@
 package problema.carteiro.chines;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.LinkedList;
 import java.util.ArrayList;
 
 public class Grafo {
+
+    public Grafo(){
+        lista = new ArrayList<>();
+    }
     private int n = 0;//numero de vértices
     private ArrayList<LinkedList<Integer>> lista;
 

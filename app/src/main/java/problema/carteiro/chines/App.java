@@ -35,8 +35,8 @@ public class App {
         grafo1.adAresta(3, 4);
         grafo1.adAresta(5, 6);
         grafo1.adAresta(7, 8);
-        grafo1.adAresta(7, 9);
-        grafo1.adAresta(8, 9);
+//        grafo1.adAresta(7, 9);
+//        grafo1.adAresta(8, 9);
         
 
     }
