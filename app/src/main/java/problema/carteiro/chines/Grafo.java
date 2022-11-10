@@ -2,32 +2,53 @@ package problema.carteiro.chines;
 
 import org.checkerframework.checker.units.qual.A;
 
-import java.util.LinkedList;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Grafo {
 
     public Grafo(){
-        lista = new ArrayList<>();
+        listaAdjacencia = new LinkedHashMap<>();
     }
-    private int n = 0;//numero de vértices
-    private ArrayList<LinkedList<Integer>> lista;
+    private int V = 0; //Número de vértices
+    private int L = 0; //Número de arestas
+    private Map<Vertice, List<Vertice>> listaAdjacencia; // Lista de Adjacência dos vértices
 
-    void adAresta(int v1, int v2){
-        //ao adicionar uma aresta estamos supondo que os vértices já estão no grafo
-        this.lista.get(v1).add(v2);//v2 é adicionado como adjacente de v1
-        this.lista.get(v2).add(v1);//v1 é adicionado como adjacente de v2
-
-    }
-
-    void adVertice(int v){
-        LinkedList li = new LinkedList<>();//adicionamos uma lista para o novo vértice
-        li.add(v);//adicionamos o vértice à lista
-        this.lista.add(li);//adiciomanos a lista à lista de adjacência
-        this.n++;//aumenta o numero vértices
-    }
-    public static void main(String[] args) {
-        
+    void addVertice(int v){
+        listaAdjacencia.putIfAbsent(new Vertice(v), new LinkedList<>());
+        this.V++;
     }
 
+    void addAresta(int v1, int v2){
+        Vertice auxv1 = new Vertice(v1);
+        Vertice auxv2 = new Vertice(v2);
+        try {
+            listaAdjacencia.get(auxv1).add(auxv2);
+            listaAdjacencia.get(auxv2).add(auxv1);
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+            System.out.println("O vértice não existe");
+        }
+    }
+
+    // Getters e Setters
+    public Map<Vertice, List<Vertice>> getListaAdjacencia() {
+        return listaAdjacencia;
+    }
+
+    public int getV() {
+        return V;
+    }
+
+    public void setV(int v) {
+        V = v;
+    }
+
+    public int getL() {
+        return L;
+    }
+
+    public void setL(int l) {
+        L = l;
+    }
 }
