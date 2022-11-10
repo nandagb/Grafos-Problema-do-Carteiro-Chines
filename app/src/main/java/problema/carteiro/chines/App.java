@@ -9,10 +9,30 @@ public class App {
         return "Hello World!";
     }
 
-    public Grafo GrafoEuleriano(){
+    public static Grafo GrafoEuleriano(){
         Grafo grafoEuleriano = new Grafo();
 
         grafoEuleriano.addVertice(1);
+        grafoEuleriano.addVertice(2);
+        grafoEuleriano.addVertice(3);
+        grafoEuleriano.addVertice(4);
+        grafoEuleriano.addVertice(5);
+        grafoEuleriano.addVertice(6);
+        grafoEuleriano.addVertice(7);
+
+        grafoEuleriano.addAresta(1,2);
+        grafoEuleriano.addAresta(1,3);
+        grafoEuleriano.addAresta(1,4);
+        grafoEuleriano.addAresta(1,5);
+        grafoEuleriano.addAresta(2,3);
+        grafoEuleriano.addAresta(2,4);
+        grafoEuleriano.addAresta(2,5);
+        grafoEuleriano.addAresta(3,4);
+        grafoEuleriano.addAresta(3,5);
+        grafoEuleriano.addAresta(3,6);
+        grafoEuleriano.addAresta(3,7);
+        grafoEuleriano.addAresta(4,5);
+        grafoEuleriano.addAresta(6,7);
 
         return grafoEuleriano;
     }
@@ -20,30 +40,11 @@ public class App {
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
 
-        Grafo grafo1 = new Grafo();
+        Grafo grafoEuleriano = GrafoEuleriano();
 
-        //adciona os vértices
-        grafo1.addVertice(1);
-        grafo1.addVertice(2);
-        grafo1.addVertice(3);
-        grafo1.addVertice(4);
-        grafo1.addVertice(5);
-        grafo1.addVertice(6);
-        grafo1.addVertice(7);
-
-        //adiciona as arestas
-        grafo1.addAresta(1, 2);
-        grafo1.addAresta(1, 4);
-        grafo1.addAresta(1, 7);
-        grafo1.addAresta(2, 5);
-        grafo1.addAresta(2, 6);
-        grafo1.addAresta(2, 3);
-        grafo1.addAresta(3, 4);
-        grafo1.addAresta(5, 6);
-
-        for (Vertice ver : grafo1.getListaAdjacencia().keySet()) {
+        for (Vertice ver : grafoEuleriano.getListaAdjacencia().keySet()) {
             System.out.print(ver.n + ": ");
-            for (Vertice adjver: grafo1.getListaAdjacencia().get(ver)) {
+            for (Vertice adjver: grafoEuleriano.getListaAdjacencia().get(ver)) {
                 System.out.print(adjver.n + " ");
             }
             System.out.println();
