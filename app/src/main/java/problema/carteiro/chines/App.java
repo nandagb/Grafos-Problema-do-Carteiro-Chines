@@ -9,69 +9,13 @@ import java.util.List;
 import java.util.Optional;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
-
-    public static Grafo CriarGrafoEuleriano(){
-        Grafo grafoEuleriano = new Grafo();
-
-        grafoEuleriano.addVertice(1);
-        grafoEuleriano.addVertice(2);
-        grafoEuleriano.addVertice(3);
-        grafoEuleriano.addVertice(4);
-        grafoEuleriano.addVertice(5);
-        grafoEuleriano.addVertice(6);
-        grafoEuleriano.addVertice(7);
-
-        grafoEuleriano.addAresta(1,2);
-        grafoEuleriano.addAresta(1,3);
-        grafoEuleriano.addAresta(1,4);
-        grafoEuleriano.addAresta(1,5);
-        grafoEuleriano.addAresta(2,3);
-        grafoEuleriano.addAresta(2,4);
-        grafoEuleriano.addAresta(2,5);
-        grafoEuleriano.addAresta(3,4);
-        grafoEuleriano.addAresta(3,5);
-        grafoEuleriano.addAresta(3,6);
-        grafoEuleriano.addAresta(3,7);
-        grafoEuleriano.addAresta(4,5);
-        grafoEuleriano.addAresta(6,7);
-
-        return grafoEuleriano;
-    }
-
-    public static Grafo CriarGrafoNaoEuleriano(){
-        Grafo grafoEuleriano = new Grafo();
-
-        grafoEuleriano.addVertice(1);
-        grafoEuleriano.addVertice(2);
-        grafoEuleriano.addVertice(3);
-        grafoEuleriano.addVertice(4);
-        grafoEuleriano.addVertice(5);
-        grafoEuleriano.addVertice(6);
-        grafoEuleriano.addVertice(7);
-        grafoEuleriano.addVertice(8);
-
-        grafoEuleriano.addAresta(1,2);
-        grafoEuleriano.addAresta(1,3);
-        grafoEuleriano.addAresta(1,4);
-        grafoEuleriano.addAresta(1,5);
-        grafoEuleriano.addAresta(2,3);
-        grafoEuleriano.addAresta(2,4);
-        grafoEuleriano.addAresta(2,5);
-        grafoEuleriano.addAresta(3,4);
-        grafoEuleriano.addAresta(3,5);
-        grafoEuleriano.addAresta(3,6);
-        grafoEuleriano.addAresta(3,7);
-        grafoEuleriano.addAresta(4,5);
-        grafoEuleriano.addAresta(6,7);
-        grafoEuleriano.addAresta(7,8);
-
-        return grafoEuleriano;
-    }
-
-    public static void checarGrafoConexo(Grafo grafo, Vertice ver, List<Vertice> visitados){
+    /**
+     * Função que checa se o grafo é conexo.
+     * @param grafo Grafo para ser verificado
+     * @param ver Vertice sendo verificado no momento
+     * @param visitados Lista de vértices já visitados
+     */
+    public void checarGrafoConexo(Grafo grafo, Vertice ver, List<Vertice> visitados){
         for (Vertice v: grafo.getListaAdjacencia().get(ver)) {
             if (!visitados.contains(v))
             {
@@ -81,7 +25,13 @@ public class App {
         }
     }
 
-    public static boolean checarGrafoEuleriano(Grafo grafo){
+    /**
+     * Função que checa se o grafo é Euleriano.
+     * Para isto se utiliza do teorema 2.1 do livro Teoria Computacional de Grafos do autor Jayme Luiz Szwarcfiter.
+     * @param grafo grafo para ser verificado
+     * @return true caso seja Euleriano, false CC
+     */
+    public boolean checarGrafoEuleriano(Grafo grafo){
         boolean conexo = false;
         boolean euleriano = false;
         boolean grauPar = true;
@@ -116,20 +66,11 @@ public class App {
         return euleriano;
     }
 
-    public static void main(String[] args) {
+    public boolean main(Grafo grafo) {
+        boolean euleriano;
+        grafo.printGrafo();
+        euleriano = checarGrafoEuleriano(grafo);
 
-        Grafo grafoEuleriano = CriarGrafoEuleriano();
-
-        grafoEuleriano.printGrafo();
-
-        checarGrafoEuleriano(grafoEuleriano);
-
-        Grafo grafoNaoEuleriano = CriarGrafoNaoEuleriano();
-
-        grafoNaoEuleriano.printGrafo();
-
-        checarGrafoEuleriano(grafoNaoEuleriano);
-
-
+        return euleriano;
     }
 }
