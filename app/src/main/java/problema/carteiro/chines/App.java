@@ -4,12 +4,16 @@
 package problema.carteiro.chines;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
-    public static Grafo GrafoEuleriano(){
+    public static Grafo CriarGrafoEuleriano(){
         Grafo grafoEuleriano = new Grafo();
 
         grafoEuleriano.addVertice(1);
@@ -37,18 +41,95 @@ public class App {
         return grafoEuleriano;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    public static Grafo CriarGrafoNaoEuleriano(){
+        Grafo grafoEuleriano = new Grafo();
 
-        Grafo grafoEuleriano = GrafoEuleriano();
+        grafoEuleriano.addVertice(1);
+        grafoEuleriano.addVertice(2);
+        grafoEuleriano.addVertice(3);
+        grafoEuleriano.addVertice(4);
+        grafoEuleriano.addVertice(5);
+        grafoEuleriano.addVertice(6);
+        grafoEuleriano.addVertice(7);
+        grafoEuleriano.addVertice(8);
 
-        for (Vertice ver : grafoEuleriano.getListaAdjacencia().keySet()) {
-            System.out.print(ver.n + ": ");
-            for (Vertice adjver: grafoEuleriano.getListaAdjacencia().get(ver)) {
-                System.out.print(adjver.n + " ");
+        grafoEuleriano.addAresta(1,2);
+        grafoEuleriano.addAresta(1,3);
+        grafoEuleriano.addAresta(1,4);
+        grafoEuleriano.addAresta(1,5);
+        grafoEuleriano.addAresta(2,3);
+        grafoEuleriano.addAresta(2,4);
+        grafoEuleriano.addAresta(2,5);
+        grafoEuleriano.addAresta(3,4);
+        grafoEuleriano.addAresta(3,5);
+        grafoEuleriano.addAresta(3,6);
+        grafoEuleriano.addAresta(3,7);
+        grafoEuleriano.addAresta(4,5);
+        grafoEuleriano.addAresta(6,7);
+        grafoEuleriano.addAresta(7,8);
+
+        return grafoEuleriano;
+    }
+
+    public static void checarGrafoConexo(Grafo grafo, Vertice ver, List<Vertice> visitados){
+        for (Vertice v: grafo.getListaAdjacencia().get(ver)) {
+            if (!visitados.contains(v))
+            {
+                visitados.add(v);
+                checarGrafoConexo(grafo, v, visitados);
             }
-            System.out.println();
         }
+    }
+
+    public static boolean checarGrafoEuleriano(Grafo grafo){
+        boolean conexo = false;
+        boolean euleriano = false;
+        boolean grauPar = true;
+
+        List<Vertice> visitados = new ArrayList<>();
+
+        // Verificar se é conexo
+        Vertice ver = grafo.getListaAdjacencia().keySet().stream().findFirst().get();
+        visitados.add(ver);
+        checarGrafoConexo(grafo, ver, visitados);
+        if (visitados.size() == grafo.getV())
+            conexo = true;
+
+        System.out.println("Conexo: " + conexo);
+
+        // Se conexo, verificar se todo nó tem grau par
+        if (conexo){
+            for (Vertice v: grafo.getListaAdjacencia().keySet()) {
+                if (grafo.getListaAdjacencia().get(v).size() % 2 != 0)
+                {
+                    grauPar = false;
+                }
+            }
+        }
+        System.out.println("Grau Par: " + grauPar);
+
+        if (conexo && grauPar)
+            euleriano = true;
+
+        System.out.println("Euleriano: " + euleriano);
+
+        return euleriano;
+    }
+
+    public static void main(String[] args) {
+
+        Grafo grafoEuleriano = CriarGrafoEuleriano();
+
+        grafoEuleriano.printGrafo();
+
+        checarGrafoEuleriano(grafoEuleriano);
+
+        Grafo grafoNaoEuleriano = CriarGrafoNaoEuleriano();
+
+        grafoNaoEuleriano.printGrafo();
+
+        checarGrafoEuleriano(grafoNaoEuleriano);
+
 
     }
 }

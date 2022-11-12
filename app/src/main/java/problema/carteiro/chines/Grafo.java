@@ -29,6 +29,17 @@ public class Grafo {
             e.printStackTrace();
             System.out.println("O vértice não existe");
         }
+        this.L++;
+    }
+
+    public void printGrafo(){
+        for (Vertice ver : this.getListaAdjacencia().keySet()) {
+            System.out.print(ver.n + ": ");
+            for (Vertice adjver: this.getListaAdjacencia().get(ver)) {
+                System.out.print(adjver.n + " ");
+            }
+            System.out.println();
+        }
     }
 
     // Getters e Setters
