@@ -9,10 +9,10 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Testes dos algoritmos utilizados no código
  */
-class AppTest {
+class AlgoritmosTest {
     @Test
     public void GrafoNaoConexo() {
-        App main = new App();
+        Algoritmos main = new Algoritmos();
 
         Grafo grafoNaoConexo = new Grafo();
 
@@ -43,7 +43,7 @@ class AppTest {
 
     @Test
     public void GrafoConexoImpar() {
-        App main = new App();
+        Algoritmos main = new Algoritmos();
 
         Grafo grafoConexoImpar = new Grafo();
 
@@ -76,7 +76,7 @@ class AppTest {
 
     @Test
     public void GrafoEuleriano() {
-        App main = new App();
+        Algoritmos main = new Algoritmos();
 
         Grafo grafoEuleriano = new Grafo();
 

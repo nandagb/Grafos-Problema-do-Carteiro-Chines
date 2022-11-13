@@ -6,9 +6,8 @@ package problema.carteiro.chines;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public class App {
+public class Algoritmos {
     /**
      * Função que checa se o grafo é conexo.
      * @param grafo Grafo para ser verificado
