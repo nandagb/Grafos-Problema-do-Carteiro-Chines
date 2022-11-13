@@ -30,6 +30,6 @@ public class Main {
 
         grafoEuleriano.printGrafo();
 
-        algoritmos.checarGrafoEuleriano(grafoEuleriano);
+        algoritmos.algoritmoLinks(grafoEuleriano);
     }
 }

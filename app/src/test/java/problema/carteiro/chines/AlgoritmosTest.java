@@ -38,7 +38,7 @@ class AlgoritmosTest {
         grafoNaoConexo.addAresta(6,7);
         grafoNaoConexo.addAresta(7,8);
 
-        assertEquals(main.main(grafoNaoConexo), false, "O grafo não é euleriano");
+        assertEquals(main.algoritmoLinks(grafoNaoConexo), false, "O grafo não é euleriano");
     }
 
     @Test
@@ -71,7 +71,7 @@ class AlgoritmosTest {
         grafoConexoImpar.addAresta(6,7);
         grafoConexoImpar.addAresta(7,8);
 
-        assertEquals(main.main(grafoConexoImpar), false, "O grafo não é euleriano");
+        assertEquals(main.algoritmoLinks(grafoConexoImpar), false, "O grafo não é euleriano");
     }
 
     @Test
@@ -102,6 +102,6 @@ class AlgoritmosTest {
         grafoEuleriano.addAresta(4,5);
         grafoEuleriano.addAresta(6,7);
 
-        assertEquals(main.main(grafoEuleriano), true, "O grafo é euleriano");
+        assertEquals(main.algoritmoLinks(grafoEuleriano), true, "O grafo é euleriano");
     }
 }

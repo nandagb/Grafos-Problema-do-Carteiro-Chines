@@ -65,10 +65,43 @@ public class Algoritmos {
         return euleriano;
     }
 
-    public boolean main(Grafo grafo) {
-        boolean euleriano;
+    /**
+     * Algoritmo de Hierholzer.
+     * Implementado assim como descrito no relatório.
+     * @param grafo Grafo que gerará a trilha euleriana
+     * @param ver Vértice atual sendo adicionado à trilha
+     * @param trilhaEuleriana Lista que possui a trilha
+     */
+    public void hierholzer(Grafo grafo, Vertice ver, List<Vertice> trilhaEuleriana){
+        for (int i = 0; i < grafo.getListaAdjacencia().get(ver).size(); i++)
+        {
+            Vertice v = grafo.getListaAdjacencia().get(ver).get(i);
+            grafo.remAresta(ver.n, v.n);
+            hierholzer(grafo, v, trilhaEuleriana);
+        }
+        trilhaEuleriana.add(ver);
+    }
+
+    public boolean algoritmoLinks(Grafo grafo) {
+        boolean linkado = false;
+        boolean euleriano = false;
         grafo.printGrafo();
         euleriano = checarGrafoEuleriano(grafo);
+
+        if (euleriano){
+            List<Vertice> trilhaEuleriana = new ArrayList<>();
+            Vertice ver = grafo.getListaAdjacencia().keySet().stream().findFirst().get();
+            hierholzer(grafo, ver, trilhaEuleriana);
+
+            System.out.print("Trilha euleriana: ");
+            for (Vertice v : trilhaEuleriana){
+                System.out.print(v.n + " ");
+            }
+
+            linkado = true;
+
+            return linkado;
+        }
 
         return euleriano;
     }
