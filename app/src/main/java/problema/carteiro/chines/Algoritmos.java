@@ -76,7 +76,7 @@ public class Algoritmos {
         for (int i = 0; i < grafo.getListaAdjacencia().get(ver).size(); i++)
         {
             Vertice v = grafo.getListaAdjacencia().get(ver).get(i);
-            grafo.remAresta(ver.n, v.n);
+            grafo.remAresta(ver.getN(), v.getN());
             hierholzer(grafo, v, trilhaEuleriana);
         }
         trilhaEuleriana.add(ver);
@@ -95,7 +95,7 @@ public class Algoritmos {
 
             System.out.print("Trilha euleriana: ");
             for (Vertice v : trilhaEuleriana){
-                System.out.print(v.n + " ");
+                System.out.print(v.getN() + " ");
             }
 
             linkado = true;
@@ -105,4 +105,87 @@ public class Algoritmos {
 
         return euleriano;
     }
+
+    /***
+     * Retorna o conjunto de vértices com grau ímpar
+     * @param grafo a ser analisado
+     * @return Lista com os vértices de grau ímpar
+     */
+    public void numGrauImpar(Grafo grafo){
+        for(Vertice ver: grafo.getListaAdjacencia().keySet()){
+            if(grafo.getListaAdjacencia().get(ver).size() % 2 != 0 ){
+                System.out.println("o vértice : " + ver.getN() + " tem grau ímpar");
+            }
+        }
+    }
+
+    //retorna o vértice com menor distância em uma lista de vértices
+    public Vertice menorD(ArrayList<Vertice> lista){
+        Vertice m = new Vertice(lista.get(0));
+
+        for(int i = 0; i < lista.size(); i++){
+            if(lista.get(i).getD() < m.getD()){
+                m = lista.get(i);
+            }
+        }
+
+        return m;
+    }
+
+    public void dijkstra(Grafo grafo, Vertice fonte){
+        //System.out.println("entrei em dijkstra");
+        ArrayList F = new ArrayList<Vertice>();//grupo dos vértices fechados
+        //System.out.println("criei array F");
+        F.add(fonte);
+        //System.out.println("Adicionei fonte em F");
+        ArrayList A = new ArrayList<Vertice>();//grupo dos vértices abertos
+        //System.out.println("Criei array A");
+        
+        for(Vertice ver: grafo.getListaAdjacencia().keySet()){
+            if(grafo.getListaAdjacencia().get(ver) != fonte ){
+                A.add(ver);
+            }
+        }
+
+        fonte.setD(0);
+        fonte.setRot(Double.POSITIVE_INFINITY);
+
+        for(Vertice ver: grafo.getListaAdjacencia().keySet()){//percorre o grafo
+            int j = 0;
+            if( grafo.getListaAdjacencia().get(ver) != fonte ){//se não for a fonte
+                //rotulação inicial
+                if( grafo.getListaAdjacencia().get(fonte).contains(ver) ){//se o vertice estiver a distancia de 1 da fonte
+                    ver.setRot(fonte.getN());//o rotulo dos vértices adjacentes a fonte é a própria fonte
+                    ver.setD(1);//distancia da fonte é 1
+                }
+                else{
+                    ver.setRot(0);//não definimos um rótulo
+                    ver.setRot(Double.POSITIVE_INFINITY);//não definimos uma distância
+                }
+            }
+            j++;
+        }
+
+        Vertice i;
+        while(A.size() != 0){
+            i = new Vertice(menorD(A));//recebe o vértice com menor distância entre os vértices abertos
+            //fecha o vértice
+            A.remove(i);
+            F.add(i);
+
+            
+            for(Vertice adjver: grafo.getListaAdjacencia().get(i)){//para todos os adjacentes de i
+                if(A.contains(adjver)){//que estiverem abertos
+                    if(adjver.getD() > i.getD() + 1){
+                        adjver.setD(i.getD() + 1);
+                        adjver.setRot(i.getN());
+                        //System.out.println("vértice: " + adjver.getN() + " distancia: " + adjver.getRot());
+                    }
+                }
+            }
+
+        }
+    }
+
+    
 }

@@ -28,8 +28,38 @@ public class Main {
         grafoEuleriano.addAresta(4,5);
         grafoEuleriano.addAresta(6,7);
 
-        grafoEuleriano.printGrafo();
+        //grafoEuleriano.printGrafo();
 
-        algoritmos.algoritmoLinks(grafoEuleriano);
+        //algoritmos.algoritmoLinks(grafoEuleriano);
+        Grafo grafoNaoEuleriano = new Grafo();
+
+        grafoNaoEuleriano.addVertice(1);
+        grafoNaoEuleriano.addVertice(2);
+        grafoNaoEuleriano.addVertice(3);
+        grafoNaoEuleriano.addVertice(4);
+        grafoNaoEuleriano.addVertice(5);
+        grafoNaoEuleriano.addVertice(6);
+        grafoNaoEuleriano.addVertice(7);
+
+        grafoNaoEuleriano.addAresta(1,2);
+        grafoNaoEuleriano.addAresta(1,3);
+        grafoNaoEuleriano.addAresta(1,4);
+        grafoNaoEuleriano.addAresta(1,5);
+        grafoNaoEuleriano.addAresta(2,3);
+        grafoNaoEuleriano.addAresta(2,5);
+        grafoNaoEuleriano.addAresta(3,4);
+        grafoNaoEuleriano.addAresta(3,5);
+        grafoNaoEuleriano.addAresta(3,6);
+        grafoNaoEuleriano.addAresta(3,7);
+        grafoNaoEuleriano.addAresta(4,5);
+
+        grafoNaoEuleriano.printGrafo();
+        System.out.println();
+
+        algoritmos.numGrauImpar(grafoNaoEuleriano);
+        System.out.println();
+
+        algoritmos.dijkstra(grafoNaoEuleriano, grafoNaoEuleriano.getN(1));//medir distâncias do vértice 1 pros demais
+        grafoNaoEuleriano.printVertices();
     }
 }
