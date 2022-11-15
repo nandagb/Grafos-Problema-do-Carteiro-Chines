@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Vertice {
-    public int n;
+    public int n; // Valor do vértice
     public Vertice(int n){
         this.n = n;
     }

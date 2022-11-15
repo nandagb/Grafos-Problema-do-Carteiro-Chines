@@ -10,11 +10,13 @@ import java.util.List;
 public class Algoritmos {
     /**
      * Função que checa se o grafo é conexo.
+     * Complexidade: O(n^2) -> Executa o for até n*n-1 vezes
      * @param grafo Grafo para ser verificado
      * @param ver Vertice sendo verificado no momento
      * @param visitados Lista de vértices já visitados
      */
     public void checarGrafoConexo(Grafo grafo, Vertice ver, List<Vertice> visitados){
+        // Para cada vértice adjascente do atual, se ele não foi visitado, visita e checa seus adjascentes
         for (Vertice v: grafo.getListaAdjacencia().get(ver)) {
             if (!visitados.contains(v))
             {
@@ -27,6 +29,7 @@ public class Algoritmos {
     /**
      * Função que checa se o grafo é Euleriano.
      * Para isto se utiliza do teorema 2.1 do livro Teoria Computacional de Grafos do autor Jayme Luiz Szwarcfiter.
+     * Complexidade: O(n^3) -> checagem do grafo conexo e checagem do grau par executa n vezes
      * @param grafo grafo para ser verificado
      * @return true caso seja Euleriano, false CC
      */
@@ -41,6 +44,7 @@ public class Algoritmos {
         Vertice ver = grafo.getListaAdjacencia().keySet().stream().findFirst().get();
         visitados.add(ver);
         checarGrafoConexo(grafo, ver, visitados);
+        // Se todos vertices foram visitados, o grafo é conexo
         if (visitados.size() == grafo.getV())
             conexo = true;
 
@@ -57,6 +61,7 @@ public class Algoritmos {
         }
         System.out.println("Grau Par: " + grauPar);
 
+        // Se for conexo e todo nor for par, é euleriano
         if (conexo && grauPar)
             euleriano = true;
 
@@ -68,6 +73,7 @@ public class Algoritmos {
     /**
      * Algoritmo de Hierholzer.
      * Implementado assim como descrito no relatório.
+     * Complexidade: O(m) -> número máximo de arestas que ele pode percorrer
      * @param grafo Grafo que gerará a trilha euleriana
      * @param ver Vértice atual sendo adicionado à trilha
      * @param trilhaEuleriana Lista que possui a trilha
