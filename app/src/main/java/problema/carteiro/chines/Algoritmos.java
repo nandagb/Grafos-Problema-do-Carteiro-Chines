@@ -15,13 +15,12 @@ public class Algoritmos {
      * @param ver Vertice sendo verificado no momento
      * @param visitados Lista de vértices já visitados
      */
-    public void checarGrafoConexo(Grafo grafo, Vertice ver, List<Vertice> visitados){
+    public void checarGrafoConexo(Grafo grafo, Vertice ver, List<Integer> visitados){
         // Para cada vértice adjascente do atual, se ele não foi visitado, visita e checa seus adjascentes
-        for (Vertice v: grafo.getListaAdjacencia().get(ver)) {
-            if (!visitados.contains(v))
-            {
-                visitados.add(v);
-                checarGrafoConexo(grafo, v, visitados);
+        for (Integer nVertice : ver.listaAdjascencia){
+            if (!visitados.contains(nVertice)){
+                visitados.add(nVertice);
+                checarGrafoConexo(grafo, grafo.getListaVertices().get(grafo.getListaVertices().indexOf(new Vertice(nVertice))), visitados);
             }
         }
     }
@@ -38,11 +37,11 @@ public class Algoritmos {
         boolean euleriano = false;
         boolean grauPar = true;
 
-        List<Vertice> visitados = new ArrayList<>();
+        List<Integer> visitados = new ArrayList<>();
 
         // Verificar se é conexo
-        Vertice ver = grafo.getListaAdjacencia().keySet().stream().findFirst().get();
-        visitados.add(ver);
+        Vertice ver = grafo.getListaVertices().get(0);
+        visitados.add(ver.getN());
         checarGrafoConexo(grafo, ver, visitados);
         // Se todos vertices foram visitados, o grafo é conexo
         if (visitados.size() == grafo.getV())
@@ -52,8 +51,8 @@ public class Algoritmos {
 
         // Se conexo, verificar se todo nó tem grau par
         if (conexo){
-            for (Vertice v: grafo.getListaAdjacencia().keySet()) {
-                if (grafo.getListaAdjacencia().get(v).size() % 2 != 0)
+            for (Vertice v: grafo.getListaVertices()) {
+                if (v.listaAdjascencia.size() % 2 != 0)
                 {
                     grauPar = false;
                 }
@@ -79,9 +78,9 @@ public class Algoritmos {
      * @param trilhaEuleriana Lista que possui a trilha
      */
     public void hierholzer(Grafo grafo, Vertice ver, List<Vertice> trilhaEuleriana){
-        for (int i = 0; i < grafo.getListaAdjacencia().get(ver).size(); i++)
+        for (int i = 0; i < grafo.getListaVertices().get(grafo.getListaVertices().indexOf(ver)).listaAdjascencia.size(); i++)
         {
-            Vertice v = grafo.getListaAdjacencia().get(ver).get(i);
+            Vertice v = grafo.getListaVertices().get(grafo.getListaVertices().indexOf(new Vertice(ver.listaAdjascencia.get(i))));
             grafo.remAresta(ver.getN(), v.getN());
             hierholzer(grafo, v, trilhaEuleriana);
         }
@@ -96,13 +95,14 @@ public class Algoritmos {
 
         if (euleriano){
             List<Vertice> trilhaEuleriana = new ArrayList<>();
-            Vertice ver = grafo.getListaAdjacencia().keySet().stream().findFirst().get();
+            Vertice ver = grafo.getListaVertices().get(0);
             hierholzer(grafo, ver, trilhaEuleriana);
 
             System.out.print("Trilha euleriana: ");
             for (Vertice v : trilhaEuleriana){
                 System.out.print(v.getN() + " ");
             }
+            System.out.println();
 
             linkado = true;
 
@@ -118,8 +118,8 @@ public class Algoritmos {
      * @return Lista com os vértices de grau ímpar
      */
     public void numGrauImpar(Grafo grafo){
-        for(Vertice ver: grafo.getListaAdjacencia().keySet()){
-            if(grafo.getListaAdjacencia().get(ver).size() % 2 != 0 ){
+        for(Vertice ver: grafo.getListaVertices()){
+            if(ver.listaAdjascencia.size()  % 2 != 0 ){
                 System.out.println("o vértice : " + ver.getN() + " tem grau ímpar");
             }
         }

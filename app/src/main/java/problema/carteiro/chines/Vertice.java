@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Objects;
 
 public class Vertice {
-    public int n;
+    private int n; // Identificador do vértice
     private double d;
     private double rot;
+    public List<Integer> listaAdjascencia; // Lista de vértices do vértice
+
     public Vertice(int n){
         this.n = n;
+        this.listaAdjascencia = new ArrayList<>();
     }
 
     public Vertice(Vertice ver){
