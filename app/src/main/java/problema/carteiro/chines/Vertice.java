@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Vertice {
-    private int n;
-    private int d;
+    public int n;
+    private double d;
     private double rot;
     
     public Vertice(int n){
@@ -21,8 +21,12 @@ public class Vertice {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Vertice vertice = (Vertice) o;
         return n == vertice.n;
     }
@@ -31,6 +35,7 @@ public class Vertice {
     public int hashCode() {
         return Objects.hash(n);
     }
+
 
     //getters e setters
     public int getN(){
@@ -41,11 +46,11 @@ public class Vertice {
         this.n = n;
     }
 
-    public int getD(){
+    public double getD(){
         return this.d;
     }
 
-    public void setD(int d){
+    public void setD(double d){
         this.d = d;
     }
 

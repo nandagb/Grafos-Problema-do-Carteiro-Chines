@@ -133,25 +133,37 @@ public class Algoritmos {
     }
 
     public void dijkstra(Grafo grafo, Vertice fonte){
-        //System.out.println("entrei em dijkstra");
-        ArrayList F = new ArrayList<Vertice>();//grupo dos vértices fechados
-        //System.out.println("criei array F");
+
+        ArrayList<Vertice> F = new ArrayList<>();//grupo dos vértices fechados
+        ArrayList<Vertice> A = new ArrayList<>();//grupo dos vértices abertos
+
         F.add(fonte);
-        //System.out.println("Adicionei fonte em F");
-        ArrayList A = new ArrayList<Vertice>();//grupo dos vértices abertos
-        //System.out.println("Criei array A");
-        
+
         for(Vertice ver: grafo.getListaAdjacencia().keySet()){
-            if(grafo.getListaAdjacencia().get(ver) != fonte ){
+            if( ver.getN() != fonte.getN() ){
                 A.add(ver);
             }
         }
 
+        
+        System.out.println("F inicial: ");
+        for (Vertice f : F){
+            System.out.println(f.getN());
+        }
+
+        System.out.println("A inicial: ");
+        for (Vertice a : A){
+            System.out.println(a.getN());
+        }
+        
+
+        //System.out.println("grafo dentro de dijkstra:");
+        //grafo.printVertices();
+        
         fonte.setD(0);
         fonte.setRot(Double.POSITIVE_INFINITY);
 
         for(Vertice ver: grafo.getListaAdjacencia().keySet()){//percorre o grafo
-            int j = 0;
             if( grafo.getListaAdjacencia().get(ver) != fonte ){//se não for a fonte
                 //rotulação inicial
                 if( grafo.getListaAdjacencia().get(fonte).contains(ver) ){//se o vertice estiver a distancia de 1 da fonte
@@ -160,29 +172,56 @@ public class Algoritmos {
                 }
                 else{
                     ver.setRot(0);//não definimos um rótulo
-                    ver.setRot(Double.POSITIVE_INFINITY);//não definimos uma distância
+                    ver.setD(Double.POSITIVE_INFINITY);//não definimos uma distância
                 }
             }
-            j++;
         }
 
+        System.out.println("grafo depois da rotulacao inicial:");
+        grafo.printVertices();
+        System.out.println();
+
         Vertice i;
+        int j = 1;
+        Vertice ver;
         while(A.size() != 0){
             i = new Vertice(menorD(A));//recebe o vértice com menor distância entre os vértices abertos
+        
+                ver = grafo.getN(j);
+                System.out.println("vertice: " +  ver.getN());
+                for (Vertice adjver: grafo.getListaAdjacencia().get(ver)) {//para todos os adjacentes de i
+                    if(A.contains(adjver)){//que estiverem abertos
+                        //System.out.println("adjacente aberto: " + adjver.getN());
+                        //System.out.println("adjacente d: " + adjver.getD());
+                        //System.out.println("ver d: " + ver.getD() + 1);
+                        //System.out.println("valor da expressao: " + ( adjver.getD() > ver.getD() + 1 ));
+                        if(grafo.getN(adjver.getN()).getD() > ver.getD() + 1){
+                            grafo.getN(adjver.getN()).setD(ver.getD() + 1);
+                            grafo.getN(adjver.getN()).setRot(ver.getN());
+                        }
+                        System.out.println("dentro do for de dentro:");
+                        grafo.printVertices();
+                        System.out.println();
+                    }
+                }
+                
+        
+
             //fecha o vértice
             A.remove(i);
             F.add(i);
+            j++;
 
-            
-            for(Vertice adjver: grafo.getListaAdjacencia().get(i)){//para todos os adjacentes de i
-                if(A.contains(adjver)){//que estiverem abertos
-                    if(adjver.getD() > i.getD() + 1){
-                        adjver.setD(i.getD() + 1);
-                        adjver.setRot(i.getN());
-                        //System.out.println("vértice: " + adjver.getN() + " distancia: " + adjver.getRot());
-                    }
-                }
+            System.out.println("F: ");
+            for (Vertice f : F){
+                System.out.println(f.getN());
             }
+    
+            System.out.println("A: ");
+            for (Vertice a : A){
+                System.out.println(a.getN());
+            }
+
 
         }
     }
