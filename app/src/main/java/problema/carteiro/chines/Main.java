@@ -123,7 +123,5 @@ public class Main {
             }
             test = scan.nextInt();
         }
-
-
     }
 }

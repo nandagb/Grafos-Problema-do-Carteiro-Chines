@@ -62,13 +62,21 @@ public class Grafo {
 
     public void printGrafo(){
         for (Vertice ver : this.getListaAdjacencia().keySet()) {
-            System.out.print(ver.n + ": ");
+            System.out.print(ver.getN() + ": ");
             for (Vertice adjver: this.getListaAdjacencia().get(ver)) {
-                System.out.print(adjver.n + " ");
+                System.out.print(adjver.getN() + " ");
             }
             System.out.println();
         }
     }
+
+    public void printVertices(){
+        for (Vertice ver : this.getListaAdjacencia().keySet()) {
+            System.out.print("(n: " + ver.getN() + " d: " + ver.getD() + " rot: " + ver.getRot() + ") \n");
+        }
+    }
+
+    
 
     // Getters e Setters
     public Map<Vertice, List<Vertice>> getListaAdjacencia() {
@@ -90,4 +98,14 @@ public class Grafo {
     public void setL(int l) {
         L = l;
     }
+
+    public Vertice getN(int n){
+        for (Vertice ver : this.getListaAdjacencia().keySet()){
+            if(ver.getN() == n){
+                return ver;
+            }  
+        }
+        return null;
+    }
+
 }
