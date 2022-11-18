@@ -65,6 +65,8 @@ public class Main {
         grafoConexoImpar.addAresta(7,8);
 
         main.algoritmoLinks(grafoConexoImpar);
+
+        main.numGrauImpar(grafoConexoImpar);
     }
 
     public static void GrafoEuleriano() {
@@ -95,16 +97,17 @@ public class Main {
         grafoEuleriano.addAresta(6,7);
 
         main.algoritmoLinks(grafoEuleriano);
+
     }
 
     public static void main(String[] args) throws ClassNotFoundException {
         Scanner scan = new Scanner(System.in);
         System.out.println("Olá, qual teste você deseja realizar?");
-        System.out.println("""
-                0 - Sair
-                1 - Grafo não conexo
-                2 - Grafo Conexo de Grau Impar
-                3 - Grafo conexo de Grau par""");
+        System.out.println("0 - Sair");
+        System.out.println("1 - Grafo não conexo");
+        System.out.println("2 - Grafo Conexo de Grau Impar");
+        System.out.println("3 - Grafo conexo de Grau par");                
+
         int test = scan.nextInt();
         while (test != 0) {
             switch (test) {

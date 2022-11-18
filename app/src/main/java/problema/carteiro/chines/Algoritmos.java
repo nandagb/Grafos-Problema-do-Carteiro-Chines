@@ -112,14 +112,16 @@ public class Algoritmos {
         return euleriano;
     }
 
+    
     /***
      * Retorna o conjunto de vértices com grau ímpar
      * @param grafo a ser analisado
      * @return Lista com os vértices de grau ímpar
      */
+
     public void numGrauImpar(Grafo grafo){
         for(Vertice ver: grafo.getListaVertices()){
-            if(ver.listaAdjascencia.size()  % 2 != 0 ){
+            if(ver.getGrau() %2 != 0){
                 System.out.println("o vértice : " + ver.getN() + " tem grau ímpar");
             }
         }

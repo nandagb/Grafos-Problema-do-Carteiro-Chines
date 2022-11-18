@@ -37,7 +37,8 @@ public class Vertice {
     public int hashCode() {
         return Objects.hash(n);
     }
-
+    
+   
 
     //getters e setters
     public int getN(){
@@ -62,5 +63,9 @@ public class Vertice {
 
     public void setRot(double rot){
         this.rot = rot;
+    }
+
+    public int getGrau(){
+        return this.listaAdjascencia.size();
     }
 }
