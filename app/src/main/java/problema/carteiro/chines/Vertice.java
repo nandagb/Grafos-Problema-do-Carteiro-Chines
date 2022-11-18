@@ -15,6 +15,8 @@ public class Vertice {
         this.listaAdjascencia = new ArrayList<>();
     }
 
+
+
     public Vertice(Vertice ver){
         this.n = ver.n;
         this.d = ver.d;
@@ -67,5 +69,9 @@ public class Vertice {
 
     public int getGrau(){
         return this.listaAdjascencia.size();
+    }
+
+    public List<Integer> getListaAdjacencia(){
+        return this.listaAdjascencia;
     }
 }

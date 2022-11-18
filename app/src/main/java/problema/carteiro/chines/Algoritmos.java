@@ -4,10 +4,13 @@
 package problema.carteiro.chines;
 
 
+
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Algoritmos {
+    public static int PESO = 1;
     /**
      * Função que checa se o grafo é conexo.
      * Complexidade: O(n^2) -> Executa o for até n*n-1 vezes
@@ -129,7 +132,7 @@ public class Algoritmos {
 
     //retorna o vértice com menor distância em uma lista de vértices
     public Vertice menorD(ArrayList<Vertice> lista){
-        Vertice m = new Vertice(lista.get(0));
+        Vertice m = lista.get(0);
 
         for(int i = 0; i < lista.size(); i++){
             if(lista.get(i).getD() < m.getD()){
@@ -147,34 +150,20 @@ public class Algoritmos {
 
         F.add(fonte);
 
-        for(Vertice ver: grafo.getListaAdjacencia().keySet()){
-            if( ver.getN() != fonte.getN() ){
+        for(Vertice ver: grafo.getListaVertices()){
+            if( ver.getN() != fonte.getN()){
                 A.add(ver);
             }
         }
-
-        
-        System.out.println("F inicial: ");
-        for (Vertice f : F){
-            System.out.println(f.getN());
-        }
-
-        System.out.println("A inicial: ");
-        for (Vertice a : A){
-            System.out.println(a.getN());
-        }
-        
-
-        //System.out.println("grafo dentro de dijkstra:");
-        //grafo.printVertices();
         
         fonte.setD(0);
         fonte.setRot(Double.POSITIVE_INFINITY);
 
-        for(Vertice ver: grafo.getListaAdjacencia().keySet()){//percorre o grafo
-            if( grafo.getListaAdjacencia().get(ver) != fonte ){//se não for a fonte
+
+        for(Vertice ver: grafo.getListaVertices()){//percorre o grafo
+            if(ver != fonte){//se nao for a fonte
                 //rotulação inicial
-                if( grafo.getListaAdjacencia().get(fonte).contains(ver) ){//se o vertice estiver a distancia de 1 da fonte
+                if(fonte.getListaAdjacencia().contains(ver.getN())){//se o vértice estiver a distancia de 1 da fonte
                     ver.setRot(fonte.getN());//o rotulo dos vértices adjacentes a fonte é a própria fonte
                     ver.setD(1);//distancia da fonte é 1
                 }
@@ -185,54 +174,34 @@ public class Algoritmos {
             }
         }
 
+        System.out.println();
         System.out.println("grafo depois da rotulacao inicial:");
         grafo.printVertices();
         System.out.println();
 
-        Vertice i;
-        int j = 1;
         Vertice ver;
+
         while(A.size() != 0){
-            i = new Vertice(menorD(A));//recebe o vértice com menor distância entre os vértices abertos
-        
-                ver = grafo.getN(j);
-                System.out.println("vertice: " +  ver.getN());
-                for (Vertice adjver: grafo.getListaAdjacencia().get(ver)) {//para todos os adjacentes de i
-                    if(A.contains(adjver)){//que estiverem abertos
-                        //System.out.println("adjacente aberto: " + adjver.getN());
-                        //System.out.println("adjacente d: " + adjver.getD());
-                        //System.out.println("ver d: " + ver.getD() + 1);
-                        //System.out.println("valor da expressao: " + ( adjver.getD() > ver.getD() + 1 ));
-                        if(grafo.getN(adjver.getN()).getD() > ver.getD() + 1){
-                            grafo.getN(adjver.getN()).setD(ver.getD() + 1);
-                            grafo.getN(adjver.getN()).setRot(ver.getN());
-                        }
-                        System.out.println("dentro do for de dentro:");
-                        grafo.printVertices();
-                        System.out.println();
+            ver = menorD(A);//recebe o vértice com a menor distância entre os vértices abertos
+
+             //fecha o vértice
+             A.remove(ver);
+             F.add(ver);
+
+            for(Integer k: ver.listaAdjascencia){//para todos os adjacentes de ver
+                Vertice adjver = grafo.getListaVertices().get(k-1);
+                if(A.contains(adjver)){//que estiverem abertos
+                    if(adjver.getD() > ver.getD() + PESO){
+                        adjver.setD(ver.getD() + PESO);
+                        adjver.setRot(ver.getN());
                     }
                 }
-                
-        
-
-            //fecha o vértice
-            A.remove(i);
-            F.add(i);
-            j++;
-
-            System.out.println("F: ");
-            for (Vertice f : F){
-                System.out.println(f.getN());
             }
-    
-            System.out.println("A: ");
-            for (Vertice a : A){
-                System.out.println(a.getN());
-            }
-
-
         }
-    }
 
+        System.out.println("grafo final:");
+        grafo.printVertices();
+        System.out.println();
+    }
     
 }

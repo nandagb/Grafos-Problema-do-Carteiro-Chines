@@ -67,6 +67,8 @@ public class Main {
         main.algoritmoLinks(grafoConexoImpar);
 
         main.numGrauImpar(grafoConexoImpar);
+
+        main.dijkstra(grafoConexoImpar, grafoConexoImpar.getListaVertices().get(0));
     }
 
     public static void GrafoEuleriano() {
