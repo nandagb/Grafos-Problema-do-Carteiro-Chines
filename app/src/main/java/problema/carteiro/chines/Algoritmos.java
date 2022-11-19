@@ -9,8 +9,12 @@ package problema.carteiro.chines;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.util.Pair;
+
 public class Algoritmos {
+
     public static int PESO = 1;
+
     /**
      * Função que checa se o grafo é conexo.
      * Complexidade: O(n^2) -> Executa o for até n*n-1 vezes
@@ -123,11 +127,35 @@ public class Algoritmos {
      */
 
     public void numGrauImpar(Grafo grafo){
+        ArrayList<Integer> impares = new ArrayList<>();
+
         for(Vertice ver: grafo.getListaVertices()){
             if(ver.getGrau() %2 != 0){
                 System.out.println("o vértice : " + ver.getN() + " tem grau ímpar");
+                impares.add(ver.getN());
             }
         }
+
+        
+        ArrayList<Pair<Integer, Integer>> pares = new ArrayList<>();
+        int permutacoes = impares.size()*(impares.size()-1)/2;
+
+        //cria lista com todos os pares possíveis para os vértices ímpares
+        for(int i=0; i<permutacoes; i++){
+            for(int j=1; j< impares.size(); j++){
+                Pair<Integer, Integer> par = new Pair<Integer,Integer>(impares.get(0), impares.get(j));
+                pares.add(par);
+            }
+            impares.remove(0);
+            if(impares.size() == 1) break;
+        }
+
+        System.out.println();
+        System.out.println("Lista com pares de ímpares:");
+        for(int i=0; i<pares.size(); i++){
+            System.out.println("(" + pares.get(i).getKey() + ", " + pares.get(i).getValue() + ")");
+        }
+
     }
 
     //retorna o vértice com menor distância em uma lista de vértices
@@ -143,6 +171,13 @@ public class Algoritmos {
         return m;
     }
 
+    /**
+     * Dijkstra
+     * Calcula a menor distância entre o vértice fonte 
+     * e os demais vértices do grafo
+     * @param grafo
+     * @param fonte
+     */
     public void dijkstra(Grafo grafo, Vertice fonte){
 
         ArrayList<Vertice> F = new ArrayList<>();//grupo dos vértices fechados
@@ -174,11 +209,6 @@ public class Algoritmos {
             }
         }
 
-        System.out.println();
-        System.out.println("grafo depois da rotulacao inicial:");
-        grafo.printVertices();
-        System.out.println();
-
         Vertice ver;
 
         while(A.size() != 0){
@@ -198,10 +228,6 @@ public class Algoritmos {
                 }
             }
         }
-
-        System.out.println("grafo final:");
-        grafo.printVertices();
-        System.out.println();
     }
     
 }
