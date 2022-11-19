@@ -5,12 +5,17 @@ import java.util.List;
 import java.util.Objects;
 
 public class Vertice {
-    public int n;
+    private int n; // Identificador do vértice
     private double d;
     private double rot;
+    public List<Integer> listaAdjascencia; // Lista de vértices do vértice
+
     public Vertice(int n){
         this.n = n;
+        this.listaAdjascencia = new ArrayList<>();
     }
+
+
 
     public Vertice(Vertice ver){
         this.n = ver.n;
@@ -34,7 +39,8 @@ public class Vertice {
     public int hashCode() {
         return Objects.hash(n);
     }
-
+    
+   
 
     //getters e setters
     public int getN(){
@@ -59,5 +65,13 @@ public class Vertice {
 
     public void setRot(double rot){
         this.rot = rot;
+    }
+
+    public int getGrau(){
+        return this.listaAdjascencia.size();
+    }
+
+    public List<Integer> getListaAdjacencia(){
+        return this.listaAdjascencia;
     }
 }

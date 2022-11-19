@@ -4,10 +4,13 @@
 package problema.carteiro.chines;
 
 
+
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Algoritmos {
+    public static int PESO = 1;
     /**
      * Função que checa se o grafo é conexo.
      * Complexidade: O(n^2) -> Executa o for até n*n-1 vezes
@@ -15,13 +18,12 @@ public class Algoritmos {
      * @param ver Vertice sendo verificado no momento
      * @param visitados Lista de vértices já visitados
      */
-    public void checarGrafoConexo(Grafo grafo, Vertice ver, List<Vertice> visitados){
+    public void checarGrafoConexo(Grafo grafo, Vertice ver, List<Integer> visitados){
         // Para cada vértice adjascente do atual, se ele não foi visitado, visita e checa seus adjascentes
-        for (Vertice v: grafo.getListaAdjacencia().get(ver)) {
-            if (!visitados.contains(v))
-            {
-                visitados.add(v);
-                checarGrafoConexo(grafo, v, visitados);
+        for (Integer nVertice : ver.listaAdjascencia){
+            if (!visitados.contains(nVertice)){
+                visitados.add(nVertice);
+                checarGrafoConexo(grafo, grafo.getListaVertices().get(grafo.getListaVertices().indexOf(new Vertice(nVertice))), visitados);
             }
         }
     }
@@ -38,11 +40,11 @@ public class Algoritmos {
         boolean euleriano = false;
         boolean grauPar = true;
 
-        List<Vertice> visitados = new ArrayList<>();
+        List<Integer> visitados = new ArrayList<>();
 
         // Verificar se é conexo
-        Vertice ver = grafo.getListaAdjacencia().keySet().stream().findFirst().get();
-        visitados.add(ver);
+        Vertice ver = grafo.getListaVertices().get(0);
+        visitados.add(ver.getN());
         checarGrafoConexo(grafo, ver, visitados);
         // Se todos vertices foram visitados, o grafo é conexo
         if (visitados.size() == grafo.getV())
@@ -52,8 +54,8 @@ public class Algoritmos {
 
         // Se conexo, verificar se todo nó tem grau par
         if (conexo){
-            for (Vertice v: grafo.getListaAdjacencia().keySet()) {
-                if (grafo.getListaAdjacencia().get(v).size() % 2 != 0)
+            for (Vertice v: grafo.getListaVertices()) {
+                if (v.listaAdjascencia.size() % 2 != 0)
                 {
                     grauPar = false;
                 }
@@ -79,9 +81,9 @@ public class Algoritmos {
      * @param trilhaEuleriana Lista que possui a trilha
      */
     public void hierholzer(Grafo grafo, Vertice ver, List<Vertice> trilhaEuleriana){
-        for (int i = 0; i < grafo.getListaAdjacencia().get(ver).size(); i++)
+        for (int i = 0; i < grafo.getListaVertices().get(grafo.getListaVertices().indexOf(ver)).listaAdjascencia.size(); i++)
         {
-            Vertice v = grafo.getListaAdjacencia().get(ver).get(i);
+            Vertice v = grafo.getListaVertices().get(grafo.getListaVertices().indexOf(new Vertice(ver.listaAdjascencia.get(i))));
             grafo.remAresta(ver.getN(), v.getN());
             hierholzer(grafo, v, trilhaEuleriana);
         }
@@ -96,13 +98,14 @@ public class Algoritmos {
 
         if (euleriano){
             List<Vertice> trilhaEuleriana = new ArrayList<>();
-            Vertice ver = grafo.getListaAdjacencia().keySet().stream().findFirst().get();
+            Vertice ver = grafo.getListaVertices().get(0);
             hierholzer(grafo, ver, trilhaEuleriana);
 
             System.out.print("Trilha euleriana: ");
             for (Vertice v : trilhaEuleriana){
                 System.out.print(v.getN() + " ");
             }
+            System.out.println();
 
             linkado = true;
 
@@ -112,14 +115,16 @@ public class Algoritmos {
         return euleriano;
     }
 
+    
     /***
      * Retorna o conjunto de vértices com grau ímpar
      * @param grafo a ser analisado
      * @return Lista com os vértices de grau ímpar
      */
+
     public void numGrauImpar(Grafo grafo){
-        for(Vertice ver: grafo.getListaAdjacencia().keySet()){
-            if(grafo.getListaAdjacencia().get(ver).size() % 2 != 0 ){
+        for(Vertice ver: grafo.getListaVertices()){
+            if(ver.getGrau() %2 != 0){
                 System.out.println("o vértice : " + ver.getN() + " tem grau ímpar");
             }
         }
@@ -127,7 +132,7 @@ public class Algoritmos {
 
     //retorna o vértice com menor distância em uma lista de vértices
     public Vertice menorD(ArrayList<Vertice> lista){
-        Vertice m = new Vertice(lista.get(0));
+        Vertice m = lista.get(0);
 
         for(int i = 0; i < lista.size(); i++){
             if(lista.get(i).getD() < m.getD()){
@@ -145,34 +150,20 @@ public class Algoritmos {
 
         F.add(fonte);
 
-        for(Vertice ver: grafo.getListaAdjacencia().keySet()){
-            if( ver.getN() != fonte.getN() ){
+        for(Vertice ver: grafo.getListaVertices()){
+            if( ver.getN() != fonte.getN()){
                 A.add(ver);
             }
         }
-
-        
-        System.out.println("F inicial: ");
-        for (Vertice f : F){
-            System.out.println(f.getN());
-        }
-
-        System.out.println("A inicial: ");
-        for (Vertice a : A){
-            System.out.println(a.getN());
-        }
-        
-
-        //System.out.println("grafo dentro de dijkstra:");
-        //grafo.printVertices();
         
         fonte.setD(0);
         fonte.setRot(Double.POSITIVE_INFINITY);
 
-        for(Vertice ver: grafo.getListaAdjacencia().keySet()){//percorre o grafo
-            if( grafo.getListaAdjacencia().get(ver) != fonte ){//se não for a fonte
+
+        for(Vertice ver: grafo.getListaVertices()){//percorre o grafo
+            if(ver != fonte){//se nao for a fonte
                 //rotulação inicial
-                if( grafo.getListaAdjacencia().get(fonte).contains(ver) ){//se o vertice estiver a distancia de 1 da fonte
+                if(fonte.getListaAdjacencia().contains(ver.getN())){//se o vértice estiver a distancia de 1 da fonte
                     ver.setRot(fonte.getN());//o rotulo dos vértices adjacentes a fonte é a própria fonte
                     ver.setD(1);//distancia da fonte é 1
                 }
@@ -183,54 +174,34 @@ public class Algoritmos {
             }
         }
 
+        System.out.println();
         System.out.println("grafo depois da rotulacao inicial:");
         grafo.printVertices();
         System.out.println();
 
-        Vertice i;
-        int j = 1;
         Vertice ver;
+
         while(A.size() != 0){
-            i = new Vertice(menorD(A));//recebe o vértice com menor distância entre os vértices abertos
-        
-                ver = grafo.getN(j);
-                System.out.println("vertice: " +  ver.getN());
-                for (Vertice adjver: grafo.getListaAdjacencia().get(ver)) {//para todos os adjacentes de i
-                    if(A.contains(adjver)){//que estiverem abertos
-                        //System.out.println("adjacente aberto: " + adjver.getN());
-                        //System.out.println("adjacente d: " + adjver.getD());
-                        //System.out.println("ver d: " + ver.getD() + 1);
-                        //System.out.println("valor da expressao: " + ( adjver.getD() > ver.getD() + 1 ));
-                        if(grafo.getN(adjver.getN()).getD() > ver.getD() + 1){
-                            grafo.getN(adjver.getN()).setD(ver.getD() + 1);
-                            grafo.getN(adjver.getN()).setRot(ver.getN());
-                        }
-                        System.out.println("dentro do for de dentro:");
-                        grafo.printVertices();
-                        System.out.println();
+            ver = menorD(A);//recebe o vértice com a menor distância entre os vértices abertos
+
+             //fecha o vértice
+             A.remove(ver);
+             F.add(ver);
+
+            for(Integer k: ver.listaAdjascencia){//para todos os adjacentes de ver
+                Vertice adjver = grafo.getListaVertices().get(k-1);
+                if(A.contains(adjver)){//que estiverem abertos
+                    if(adjver.getD() > ver.getD() + PESO){
+                        adjver.setD(ver.getD() + PESO);
+                        adjver.setRot(ver.getN());
                     }
                 }
-                
-        
-
-            //fecha o vértice
-            A.remove(i);
-            F.add(i);
-            j++;
-
-            System.out.println("F: ");
-            for (Vertice f : F){
-                System.out.println(f.getN());
             }
-    
-            System.out.println("A: ");
-            for (Vertice a : A){
-                System.out.println(a.getN());
-            }
-
-
         }
-    }
 
+        System.out.println("grafo final:");
+        grafo.printVertices();
+        System.out.println();
+    }
     
 }
