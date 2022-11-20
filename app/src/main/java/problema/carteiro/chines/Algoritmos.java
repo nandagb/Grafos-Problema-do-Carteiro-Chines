@@ -198,7 +198,7 @@ public class Algoritmos {
             for(int j=0; j<combinacoesDePares.get(i).size(); j++){//percorre a combinacao
                 //calcula as distancias de key
                 dijkstra(grafo, grafo.getListaVertices().get(combinacoesDePares.get(i).get(j).getKey()-1));
-                System.out.println("distancia" + combinacoesDePares.get(i).get(j).getKey() + " - " + combinacoesDePares.get(i).get(j).getValue() +  ": " + grafo.getListaVertices().get(combinacoesDePares.get(i).get(j).getValue()-1).getD());
+                //System.out.println("distancia " + combinacoesDePares.get(i).get(j).getKey() + " - " + combinacoesDePares.get(i).get(j).getValue() +  ": " + grafo.getListaVertices().get(combinacoesDePares.get(i).get(j).getValue()-1).getD());
                 soma += grafo.getListaVertices().get(combinacoesDePares.get(i).get(j).getValue()-1).getD();
             }
             if (soma < menorD){
@@ -209,35 +209,22 @@ public class Algoritmos {
             
         }
         
-        /*System.out.println();
-        System.out.println("resultado da menor distancia: ");
-        System.out.println("menorD: " + menorD);
-        System.out.println("menor: " + menor);
+        System.out.println("menor dupla encontrada: ");
+        for(int i=0; i<combinacoesDePares.get(menor).size(); i++){
+            System.out.print("( " + combinacoesDePares.get(menor).get(i).getKey() + ", " + combinacoesDePares.get(menor).get(i).getValue() + ")");
+        }
+        System.out.println();
 
+        //usar dikjstra de novo para calcular os caminhos
+        for(int i=0; i<combinacoesDePares.get(menor).size(); i++){
+            dijkstra(grafo, grafo.getListaVertices().get(combinacoesDePares.get(menor).get(i).getKey()-1));
+            calculaCaminho(grafo, combinacoesDePares.get(menor).get(i).getKey(), combinacoesDePares.get(menor).get(i).getValue());
+            System.out.println("distancia: " + combinacoesDePares.get(menor).get(i).getKey() + " - " + combinacoesDePares.get(menor).get(i).getValue() + ": " +  grafo.getListaVertices().get(combinacoesDePares.get(menor).get(i).getValue()-1).getD());
+        }
 
-        //achar as distâncias com dijkstra
-        dijkstra(grafo, grafo.getListaVertices().get(2-1));
-        System.out.println("distancia 2 - 5: " + grafo.getListaVertices().get(5-1).getD());
-        calculaCaminho(grafo, 2, 5);
-        System.out.println("distancia 2 - 6: " + grafo.getListaVertices().get(6-1).getD());
-        calculaCaminho(grafo, 2, 6);
-        System.out.println("distancia 2 - 8: " + grafo.getListaVertices().get(8-1).getD());
-        calculaCaminho(grafo, 2, 8);
-
-        dijkstra(grafo, grafo.getListaVertices().get(5-1));
-        System.out.println("distancia 5 - 6: " + grafo.getListaVertices().get(6-1).getD());
-        calculaCaminho(grafo, 5, 6);
-        System.out.println("distancia 5 - 8: " + grafo.getListaVertices().get(8-1).getD());
-        calculaCaminho(grafo, 5, 8);
-
-        dijkstra(grafo, grafo.getListaVertices().get(6-1));
-        System.out.println("distancia 6 - 8: " + grafo.getListaVertices().get(8-1).getD());
-        calculaCaminho(grafo, 6, 8);*/
-
-        
-        //4. ADICIONAR NO GRAFO AS ARESTAS FORMADAS PELO CAMINHO TOTAL DOS VÉRTICES IMPARES ENCONTRADOS NO PASSO ANTERIOR
-        //5. COMO O GRAFO AGORA É EULERIANO É SO CHAMAR A FUNCAO DE TRILHA EULERIANA
-        //OBS: TODAS AS ARESTAS ADIICONADAS NO PASSO 4 SERÃO ARESTAS REPETIDAS, NÃO PODEMOS MUDAR A ESTRUTURA DO GRAFO   
+        //1. ADICIONAR NO GRAFO, AS ARESTAS FORMADAS PELOS CAMINHOS ENCONTRADOS
+        //2. COMO O GRAFO AGORA É EULERIANO É SO CHAMAR A FUNCAO DE TRILHA EULERIANA
+        //OBS: TODAS AS ARESTAS ADIICONADAS NO PASSO 1 SERÃO ARESTAS REPETIDAS, NÃO PODEMOS MUDAR A ESTRUTURA DO GRAFO   
     }
 
     //retorna o vértice com menor distância em uma lista de vértices
@@ -310,9 +297,9 @@ public class Algoritmos {
                 }
             }
         }
-        System.out.println();
-        System.out.println("grafo final: ");
-        grafo.printVertices();
+        //System.out.println();
+        //System.out.println("grafo final: ");
+        //grafo.printVertices();
     }
 
     //retorna o menor caminho do vértice destino até o vértice fonte depois que dijkstra é executado
