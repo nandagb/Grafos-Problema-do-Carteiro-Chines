@@ -190,7 +190,29 @@ public class Algoritmos {
             System.out.println();
         }
 
-        //retirar da lista de combinacoes todos as combinacoes que não tem todos os impares
+       //entre as combinacoes, encontrar a que tem menor distancia total
+       int menor = 0;
+       double menorD = Double.POSITIVE_INFINITY;
+       double soma=0;
+        for(int i=0; i<combinacoesDePares.size(); i++){
+            for(int j=0; j<combinacoesDePares.get(i).size(); j++){//percorre a combinacao
+                //calcula as distancias de key
+                dijkstra(grafo, grafo.getListaVertices().get(combinacoesDePares.get(i).get(j).getKey()-1));
+                System.out.println("distancia" + combinacoesDePares.get(i).get(j).getKey() + " - " + combinacoesDePares.get(i).get(j).getValue() +  ": " + grafo.getListaVertices().get(combinacoesDePares.get(i).get(j).getValue()-1).getD());
+                soma += grafo.getListaVertices().get(combinacoesDePares.get(i).get(j).getValue()-1).getD();
+            }
+            if (soma < menorD){
+                menorD = soma;
+                menor = i;
+            }
+            soma = 0;
+            
+        }
+        
+        /*System.out.println();
+        System.out.println("resultado da menor distancia: ");
+        System.out.println("menorD: " + menorD);
+        System.out.println("menor: " + menor);
 
 
         //achar as distâncias com dijkstra
@@ -210,11 +232,9 @@ public class Algoritmos {
 
         dijkstra(grafo, grafo.getListaVertices().get(6-1));
         System.out.println("distancia 6 - 8: " + grafo.getListaVertices().get(8-1).getD());
-        calculaCaminho(grafo, 6, 8);
+        calculaCaminho(grafo, 6, 8);*/
 
-        //1. ARMAZENAR AS DISTANCIAS E CAMINHOS EM ALGUMA ESTRUTURA
-        //2. ENCONTRAR ALGUM JEITO DE LISTAR TODAS AS COMBINAÇÕES DE PARES QUE PASSAM POR TODOS OS VÉRTICES ÍMPARES SEM REPETICAO (ALGORITMO HUNGARO NAO ME AJUDOU ATÉ AGORA)
-        //3. ENCONTRAR A COMBINAÇÃO QUE TENHA O CAMINHO TOTAL COM MENOR PESO
+        
         //4. ADICIONAR NO GRAFO AS ARESTAS FORMADAS PELO CAMINHO TOTAL DOS VÉRTICES IMPARES ENCONTRADOS NO PASSO ANTERIOR
         //5. COMO O GRAFO AGORA É EULERIANO É SO CHAMAR A FUNCAO DE TRILHA EULERIANA
         //OBS: TODAS AS ARESTAS ADIICONADAS NO PASSO 4 SERÃO ARESTAS REPETIDAS, NÃO PODEMOS MUDAR A ESTRUTURA DO GRAFO   
