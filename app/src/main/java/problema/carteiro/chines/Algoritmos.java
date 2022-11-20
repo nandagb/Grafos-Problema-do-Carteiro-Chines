@@ -6,6 +6,7 @@ package problema.carteiro.chines;
 
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,6 +155,43 @@ public class Algoritmos {
         for(int i=0; i<pares.size(); i++){
             System.out.println("(" + pares.get(i).getKey() + ", " + pares.get(i).getValue() + ")");
         }
+
+        ArrayList<ArrayList<Pair<Integer, Integer>>> combinacoesDePares = new ArrayList<>();
+        int perm = pares.size()*(pares.size()-1)/2;
+        
+        //achar todas as combinações que passem por todos os vértices
+        for(int i=0; i<perm; i++){//par que será adicionado primeiro
+            ArrayList<Pair<Integer, Integer>> combinacao = new ArrayList<>();
+            combinacao.add(pares.get(0));//adiciona o primeiro par na primeira combinacao
+            combinacoesDePares.add(combinacao);//adiciona a primeira combinacao
+            for(int j=1; j<pares.size(); j++){//para todos os pares depois do par adicionado
+                for(int k=0; k<combinacao.size(); k++){//para todos os elementos de combinação
+                    if(pares.get(j).getKey() == combinacao.get(k).getKey() || 
+                       pares.get(j).getKey() == combinacao.get(k).getValue() ||
+                       pares.get(j).getValue() == combinacao.get(k).getKey() ||
+                       pares.get(j).getValue() == combinacao.get(k).getValue()){
+                        break;
+                    }
+                    combinacao.add(pares.get(j));
+                }
+            }
+            if(pares.get(1).getKey() != pares.get(0).getKey()) break;
+            pares.remove(0);//atualiza o primeiro elemento
+            if(pares.size() == 1) break;
+        }
+
+        System.out.println();
+        System.out.println("imprimindo combinacoes de pares:");
+        for(int i=0; i<combinacoesDePares.size(); i++){
+            System.out.println("par " + i + ": ");
+            for(int j=0; j<combinacoesDePares.get(i).size(); j++){
+                System.out.print("(" + combinacoesDePares.get(i).get(j).getKey() + ", " + combinacoesDePares.get(i).get(j).getValue() + ") ");
+            }
+            System.out.println();
+        }
+
+        //retirar da lista de combinacoes todos as combinacoes que não tem todos os impares
+
 
         //achar as distâncias com dijkstra
         dijkstra(grafo, grafo.getListaVertices().get(2-1));
