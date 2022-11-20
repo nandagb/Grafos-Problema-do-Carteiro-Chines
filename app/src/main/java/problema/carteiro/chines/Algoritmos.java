@@ -173,6 +173,13 @@ public class Algoritmos {
         dijkstra(grafo, grafo.getListaVertices().get(6-1));
         System.out.println("distancia 6 - 8: " + grafo.getListaVertices().get(8-1).getD());
         calculaCaminho(grafo, 6, 8);
+
+        //1. ARMAZENAR AS DISTANCIAS E CAMINHOS EM ALGUMA ESTRUTURA
+        //2. ENCONTRAR ALGUM JEITO DE LISTAR TODAS AS COMBINAÇÕES DE PARES QUE PASSAM POR TODOS OS VÉRTICES ÍMPARES SEM REPETICAO (ALGORITMO HUNGARO NAO ME AJUDOU ATÉ AGORA)
+        //3. ENCONTRAR A COMBINAÇÃO QUE TENHA O CAMINHO TOTAL COM MENOR PESO
+        //4. ADICIONAR NO GRAFO AS ARESTAS FORMADAS PELO CAMINHO TOTAL DOS VÉRTICES IMPARES ENCONTRADOS NO PASSO ANTERIOR
+        //5. COMO O GRAFO AGORA É EULERIANO É SO CHAMAR A FUNCAO DE TRILHA EULERIANA
+        //OBS: TODAS AS ARESTAS ADIICONADAS NO PASSO 4 SERÃO ARESTAS REPETIDAS, NÃO PODEMOS MUDAR A ESTRUTURA DO GRAFO   
     }
 
     //retorna o vértice com menor distância em uma lista de vértices
@@ -256,7 +263,7 @@ public class Algoritmos {
         ArrayList<Integer> caminho = new ArrayList<>();
         caminho.add(destino);
         Integer i = destino;//posicao atual
-        
+
         while(grafo.getListaVertices().get(i-1).getRot() != fonte){//enquanto não chegar em fonte
             double rotulo  = grafo.getListaVertices().get(i-1).getRot();
             i = (int) rotulo;
