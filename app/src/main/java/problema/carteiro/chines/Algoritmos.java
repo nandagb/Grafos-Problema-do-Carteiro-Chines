@@ -121,12 +121,12 @@ public class Algoritmos {
 
     
     /***
-     * Retorna o conjunto de vértices com grau ímpar
+     * Retorna uma lista com todos os pares de vértices com grau ímpar
      * @param grafo a ser analisado
      * @return Lista com os vértices de grau ímpar
      */
 
-    public void numGrauImpar(Grafo grafo){
+    public void paresdeImpares(Grafo grafo){
         ArrayList<Integer> impares = new ArrayList<>();
 
         for(Vertice ver: grafo.getListaVertices()){
@@ -136,7 +136,6 @@ public class Algoritmos {
             }
         }
 
-        
         ArrayList<Pair<Integer, Integer>> pares = new ArrayList<>();
         int permutacoes = impares.size()*(impares.size()-1)/2;
 
@@ -156,6 +155,24 @@ public class Algoritmos {
             System.out.println("(" + pares.get(i).getKey() + ", " + pares.get(i).getValue() + ")");
         }
 
+        //achar as distâncias com dijkstra
+        dijkstra(grafo, grafo.getListaVertices().get(2-1));
+        System.out.println("distancia 2 - 5: " + grafo.getListaVertices().get(5-1).getD());
+        calculaCaminho(grafo, 2, 5);
+        System.out.println("distancia 2 - 6: " + grafo.getListaVertices().get(6-1).getD());
+        calculaCaminho(grafo, 2, 6);
+        System.out.println("distancia 2 - 8: " + grafo.getListaVertices().get(8-1).getD());
+        calculaCaminho(grafo, 2, 8);
+
+        dijkstra(grafo, grafo.getListaVertices().get(5-1));
+        System.out.println("distancia 5 - 6: " + grafo.getListaVertices().get(6-1).getD());
+        calculaCaminho(grafo, 5, 6);
+        System.out.println("distancia 5 - 8: " + grafo.getListaVertices().get(8-1).getD());
+        calculaCaminho(grafo, 5, 8);
+
+        dijkstra(grafo, grafo.getListaVertices().get(6-1));
+        System.out.println("distancia 6 - 8: " + grafo.getListaVertices().get(8-1).getD());
+        calculaCaminho(grafo, 6, 8);
     }
 
     //retorna o vértice com menor distância em uma lista de vértices
@@ -228,6 +245,32 @@ public class Algoritmos {
                 }
             }
         }
+        System.out.println();
+        System.out.println("grafo final: ");
+        grafo.printVertices();
+    }
+
+    //retorna o menor caminho do vértice destino até o vértice fonte depois que dijkstra é executado
+    public void calculaCaminho(Grafo grafo, Integer fonte, Integer destino){
+
+        ArrayList<Integer> caminho = new ArrayList<>();
+        caminho.add(destino);
+        Integer i = destino;//posicao atual
+        
+        while(grafo.getListaVertices().get(i-1).getRot() != fonte){//enquanto não chegar em fonte
+            double rotulo  = grafo.getListaVertices().get(i-1).getRot();
+            i = (int) rotulo;
+            //System.out.println("i depois de receber rotulo: " + i);
+            caminho.add(i);
+        }
+
+        caminho.add(fonte);
+
+        System.out.println("caminho " + destino + " - " + fonte + ": ");
+        for(Integer j: caminho){
+            System.out.print(j + " - ");
+        }
+        System.out.println();
     }
     
 }

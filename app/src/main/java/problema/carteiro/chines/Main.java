@@ -66,9 +66,6 @@ public class Main {
 
         main.algoritmoLinks(grafoConexoImpar);
 
-        main.numGrauImpar(grafoConexoImpar);
-
-        main.dijkstra(grafoConexoImpar, grafoConexoImpar.getListaVertices().get(0));
     }
     
 
@@ -132,9 +129,8 @@ public class Main {
 
         main.algoritmoLinks(grafoNaoEuleriano);
 
-        main.numGrauImpar(grafoNaoEuleriano);
+        main.paresdeImpares(grafoNaoEuleriano);
 
-        main.dijkstra(grafoNaoEuleriano, grafoNaoEuleriano.getListaVertices().get(0));
     }
 
     public static void main(String[] args) throws ClassNotFoundException {
