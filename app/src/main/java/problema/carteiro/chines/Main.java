@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void GrafoNaoConexoTest(){
+    public static void GrafoNaoConexo(){
         boolean equals = false;
         Algoritmos main = new Algoritmos();
 
@@ -146,7 +146,7 @@ public class Main {
         while (test != 0) {
             switch (test) {
                 case 1:
-                    GrafoNaoConexoTest();
+                    GrafoNaoConexo();
                     break;
                 case 2:
                     GrafoConexoImpar();
