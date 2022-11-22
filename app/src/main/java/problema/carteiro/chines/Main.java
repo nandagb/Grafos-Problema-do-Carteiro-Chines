@@ -2,6 +2,11 @@ package problema.carteiro.chines;
 
 import java.util.Scanner;
 
+import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Main {
 
     public static void GrafoNaoConexo(){
@@ -133,6 +138,61 @@ public class Main {
 
     }
 
+    public static void grafoAleatorio(int vertices, int arestas){
+        Grafo grafoAleatorio = new Grafo();
+        Random random = new Random();
+
+        for(int i=1; i<=vertices; i++){
+            grafoAleatorio.addVertice(i);    
+        }
+
+
+        ArrayList<Pair<Integer, Integer>> container = new ArrayList<>();
+
+        int a1 = random.nextInt();
+        int a2 = random.nextInt();
+        if(a1<0) a1 = a1*(-1);
+        if(a2<0) a2 = a2*(-1);
+        a1 = (a1%vertices)+1;
+        a2 = (a2%vertices)+1;
+
+        System.out.println("a1: " + a1);
+        System.out.println("a2: " + a2);
+
+        Pair<Integer, Integer> par1 = new Pair(a1, a2);
+        Pair<Integer, Integer> par2 = new Pair(a2, a1);
+
+        for(int i=1; i<=arestas; i++){
+            while( container.contains(par1) || container.contains(par2) || a1 == a2){
+                int b1 = random.nextInt();
+                int b2 = random.nextInt();
+                if(b1<0) b1 = b1*(-1);
+                if(b2<0) b2 = b2*(-1);
+                b1 = (b1%vertices)+1;
+                b2 = (b2%vertices)+1;
+
+                System.out.println("b1: " + b1);
+                System.out.println("b2: " + b2);
+
+                Pair<Integer, Integer> par11 = new Pair(b1, b2);
+                Pair<Integer, Integer> par22 = new Pair(b2, b1);
+
+                par1 = par11;
+                par2 = par22;
+                a1 = b1;
+                a2 = b2;
+            }
+            
+            container.add(par1);
+            grafoAleatorio.addAresta(a1,a2);
+            
+            
+        }
+
+        System.out.println("imprimindo o grafo final:");
+        grafoAleatorio.printGrafo();
+    }
+
     public static void main(String[] args) throws ClassNotFoundException {
         Scanner scan = new Scanner(System.in);
         System.out.println("Olá, qual teste você deseja realizar?");
@@ -140,7 +200,8 @@ public class Main {
         System.out.println("1 - Grafo não conexo");
         System.out.println("2 - Grafo Conexo de Grau Impar");
         System.out.println("3 - Grafo conexo de Grau par");
-        System.out.println("4 - Grafo não Euleriano");                
+        System.out.println("4 - Grafo não Euleriano");      
+        System.out.println("5 - Grafo Aleatório");          
 
         int test = scan.nextInt();
         while (test != 0) {
@@ -156,6 +217,12 @@ public class Main {
                     break;
                 case 4:
                     GrafoNaoEuleriano();
+                case 5:
+                    System.out.print("Digite o número de vértices: ");
+                    int vertices = scan.nextInt();
+                    System.out.print("Digite o número de arestas: ");
+                    int arestas = scan.nextInt();
+                    grafoAleatorio(vertices, arestas);
                     break;
                 default:
                     System.out.println("Não possui esse caso de teste");
