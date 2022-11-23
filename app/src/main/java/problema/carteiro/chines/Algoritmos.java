@@ -152,6 +152,7 @@ public class Algoritmos {
      */
     public void caminhoCasoNaoEuleriano(Grafo grafo) {
         ArrayList<Integer> impares = new ArrayList<>();
+        Boolean podeAdicionar = true;
 
         // Verifica se o grau dos vértices é ímpar, se o vértice for ímpar adiona na
         // lista de impares
@@ -196,15 +197,25 @@ public class Algoritmos {
             combinacao.add(pares.get(0));// adiciona o primeiro par na primeira combinacao
             combinacoesDePares.add(combinacao);// adiciona a primeira combinacao
             for (int j = 1; j < pares.size(); j++) {// para todos os pares depois do par adicionado
+                System.out.println("par adicionado: ");
+                System.out.println("(" + pares.get(j).getKey() + ", " + pares.get(j).getValue() + ")");
+                System.out.println();
+                System.out.println("imprimindo combinacao:");
+                for (int a = 0; a < combinacao.size(); a++) {
+                    System.out.print("(" + combinacao.get(a).getKey() + ", " + combinacao.get(a).getValue() + ") ");
+                }
+                System.out.println();
                 for (int k = 0; k < combinacao.size(); k++) {// para todos os elementos de combinação
                     if (pares.get(j).getKey() == combinacao.get(k).getKey() ||
                             pares.get(j).getKey() == combinacao.get(k).getValue() ||
                             pares.get(j).getValue() == combinacao.get(k).getKey() ||
                             pares.get(j).getValue() == combinacao.get(k).getValue()) {
+                        podeAdicionar = false;
                         break;
                     }
-                    combinacao.add(pares.get(j));
                 }
+                if(podeAdicionar) combinacao.add(pares.get(j));
+                podeAdicionar = true;
             }
             if (pares.get(1).getKey() != pares.get(0).getKey())
                 break;
