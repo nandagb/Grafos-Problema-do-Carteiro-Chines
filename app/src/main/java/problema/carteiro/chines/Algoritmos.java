@@ -34,6 +34,22 @@ public class Algoritmos {
         }
     }
 
+    public boolean eConexo(Grafo grafo){
+        boolean conexo = false;
+
+        List<Integer> visitados = new ArrayList<>();
+
+        // Verificar se é conexo
+        Vertice ver = grafo.getListaVertices().get(0);
+        visitados.add(ver.getN());
+        checarGrafoConexo(grafo, ver, visitados);
+        // Se todos vertices foram visitados, o grafo é conexo
+        if (visitados.size() == grafo.getV())
+            conexo = true;
+    
+        return conexo;
+    }
+
     /**
      * Função que checa se o grafo é Euleriano.
      * Para isto se utiliza do teorema 2.1 do livro Teoria Computacional de Grafos
@@ -103,7 +119,10 @@ public class Algoritmos {
     public boolean algoritmoLinks(Grafo grafo) {
         boolean linkado = false;
         boolean euleriano = false;
+        System.out.println();
+        System.out.println("grafo:");
         grafo.printGrafo();
+        System.out.println();
         euleriano = checarGrafoEuleriano(grafo);
 
         if (euleriano) {
@@ -131,17 +150,18 @@ public class Algoritmos {
      * @param grafo a ser analisado
      * @return Lista com os vértices de grau ímpar
      */
-    public void paresdeImpares(Grafo grafo) {
+    public void caminhoCasoNaoEuleriano(Grafo grafo) {
         ArrayList<Integer> impares = new ArrayList<>();
 
         // Verifica se o grau dos vértices é ímpar, se o vértice for ímpar adiona na
         // lista de impares
         for (Vertice ver : grafo.getListaVertices()) {
             if (ver.getGrau() % 2 != 0) {
-                System.out.println("o vértice : " + ver.getN() + " tem grau ímpar");
+                //System.out.println("o vértice : " + ver.getN() + " tem grau ímpar");
                 impares.add(ver.getN());
             }
         }
+
 
         ArrayList<Pair<Integer, Integer>> pares = new ArrayList<>();
         int permutacoes = impares.size() * (impares.size() - 1) / 2;
@@ -165,7 +185,11 @@ public class Algoritmos {
 
         ArrayList<ArrayList<Pair<Integer, Integer>>> combinacoesDePares = new ArrayList<>();
         int perm = pares.size() * (pares.size() - 1) / 2;
-
+        if(pares.size() == 1){
+            ArrayList<Pair<Integer, Integer>> combinacao = new ArrayList<>();
+            combinacao.add(pares.get(0));// adiciona o primeiro par na primeira combinacao
+            combinacoesDePares.add(combinacao);// adiciona a primeira combinacao
+        }
         // Achar todas as combinações que passem por todos os vértices
         for (int i = 0; i < perm; i++) {// par que será adicionado primeiro
             ArrayList<Pair<Integer, Integer>> combinacao = new ArrayList<>();
@@ -221,24 +245,26 @@ public class Algoritmos {
 
         }
 
-        System.out.println("menor dupla encontrada: ");
-        for (int i = 0; i < combinacoesDePares.get(menor).size(); i++) {
-            System.out.print("( " + combinacoesDePares.get(menor).get(i).getKey() + ", "
-                    + combinacoesDePares.get(menor).get(i).getValue() + ")");
-        }
-        System.out.println();
+        //System.out.println("menor dupla encontrada: ");
+        //for (int i = 0; i < combinacoesDePares.get(menor).size(); i++) {
+        //    System.out.print("( " + combinacoesDePares.get(menor).get(i).getKey() + ", "
+        //            + combinacoesDePares.get(menor).get(i).getValue() + ")");
+        //}
+        //System.out.println();
 
         ArrayList<ArrayList<Integer>> caminhosGerados = new ArrayList<>();
-
+        //System.out.println("antes de usar dijkstra");
         // usar dikjstra de novo para calcular os caminhos
-        for (int i = 0; i < combinacoesDePares.get(menor).size(); i++) {
-            dijkstra(grafo, grafo.getListaVertices().get(combinacoesDePares.get(menor).get(i).getKey() - 1));
-            caminhosGerados.add(
-                    calculaCaminho(grafo, combinacoesDePares.get(menor).get(i).getKey(),
-                            combinacoesDePares.get(menor).get(i).getValue()));
-            System.out.println("distancia: " + combinacoesDePares.get(menor).get(i).getKey() + " - "
-                    + combinacoesDePares.get(menor).get(i).getValue() + ": "
-                    + grafo.getListaVertices().get(combinacoesDePares.get(menor).get(i).getValue() - 1).getD());
+        if(combinacoesDePares.size() != 0){
+            for (int i = 0; i < combinacoesDePares.get(menor).size(); i++) {
+                dijkstra(grafo, grafo.getListaVertices().get(combinacoesDePares.get(menor).get(i).getKey() - 1));
+                caminhosGerados.add(
+                        calculaCaminho(grafo, combinacoesDePares.get(menor).get(i).getKey(),
+                                combinacoesDePares.get(menor).get(i).getValue()));
+                //System.out.println("distancia: " + combinacoesDePares.get(menor).get(i).getKey() + " - "
+                //        + combinacoesDePares.get(menor).get(i).getValue() + ": "
+                //        + grafo.getListaVertices().get(combinacoesDePares.get(menor).get(i).getValue() - 1).getD());
+            }
         }
 
         // 1. ADICIONAR NO GRAFO, AS ARESTAS FORMADAS PELOS CAMINHOS ENCONTRADOS
@@ -249,8 +275,6 @@ public class Algoritmos {
         }
 
         // 2. COMO O GRAFO AGORA É EULERIANO É SO CHAMAR A FUNCAO DE TRILHA EULERIANA
-        // OBS: TODAS AS ARESTAS ADIICONADAS NO PASSO 1 SERÃO ARESTAS REPETIDAS, NÃO
-        // PODEMOS MUDAR A ESTRUTURA DO GRAFO
         Vertice ver = grafo.getListaVertices().get(0);
         List<Vertice> trilhaEuleriana = new ArrayList<>();
         hierholzer(grafo, ver, trilhaEuleriana);
@@ -353,11 +377,11 @@ public class Algoritmos {
 
         caminho.add(fonte);
 
-        System.out.println("caminho " + destino + " - " + fonte + ": ");
-        for (Integer j : caminho) {
-            System.out.print(j + " - ");
-        }
-        System.out.println();
+        //System.out.println("caminho " + destino + " - " + fonte + ": ");
+        //for (Integer j : caminho) {
+        //    System.out.print(j + " - ");
+        //}
+        //System.out.println();
 
         return caminho;
     }
