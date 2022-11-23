@@ -134,18 +134,18 @@ public class Main {
 
         main.algoritmoLinks(grafoNaoEuleriano);
 
-        main.paresdeImpares(grafoNaoEuleriano);
+        main.caminhoCasoNaoEuleriano(grafoNaoEuleriano);
 
     }
 
     public static void grafoAleatorio(int vertices, int arestas){
+        Algoritmos main = new Algoritmos();
         Grafo grafoAleatorio = new Grafo();
         Random random = new Random();
 
         for(int i=1; i<=vertices; i++){
             grafoAleatorio.addVertice(i);    
         }
-
 
         ArrayList<Pair<Integer, Integer>> container = new ArrayList<>();
 
@@ -156,8 +156,8 @@ public class Main {
         a1 = (a1%vertices)+1;
         a2 = (a2%vertices)+1;
 
-        System.out.println("a1: " + a1);
-        System.out.println("a2: " + a2);
+        //System.out.println("a1: " + a1);
+        //System.out.println("a2: " + a2);
 
         Pair<Integer, Integer> par1 = new Pair(a1, a2);
         Pair<Integer, Integer> par2 = new Pair(a2, a1);
@@ -171,9 +171,6 @@ public class Main {
                 b1 = (b1%vertices)+1;
                 b2 = (b2%vertices)+1;
 
-                System.out.println("b1: " + b1);
-                System.out.println("b2: " + b2);
-
                 Pair<Integer, Integer> par11 = new Pair(b1, b2);
                 Pair<Integer, Integer> par22 = new Pair(b2, b1);
 
@@ -185,12 +182,22 @@ public class Main {
             
             container.add(par1);
             grafoAleatorio.addAresta(a1,a2);
-            
-            
         }
 
-        System.out.println("imprimindo o grafo final:");
+        System.out.println();
+        System.out.println("grafo:");
         grafoAleatorio.printGrafo();
+        System.out.println();
+        
+        if(!main.checarGrafoEuleriano(grafoAleatorio)){
+            if(main.eConexo(grafoAleatorio)){
+                main.caminhoCasoNaoEuleriano(grafoAleatorio);
+            }
+            else{
+                System.out.println("Não é conexo! Não consegui calcular o caminho!");
+            }
+        }
+        
     }
 
     public static void main(String[] args) throws ClassNotFoundException {
@@ -217,6 +224,7 @@ public class Main {
                     break;
                 case 4:
                     GrafoNaoEuleriano();
+                    break;
                 case 5:
                     System.out.print("Digite o número de vértices: ");
                     int vertices = scan.nextInt();
