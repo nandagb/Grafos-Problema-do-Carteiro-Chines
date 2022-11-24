@@ -139,6 +139,10 @@ public class Main {
     }
 
     public static void grafoAleatorio(int vertices, int arestas){
+        if (arestas > (vertices*(vertices-1))/2){
+            System.out.println("Este grafo não pode ser gerado");
+            return;
+        }
         Algoritmos main = new Algoritmos();
         Grafo grafoAleatorio = new Grafo();
         Random random = new Random();
@@ -214,6 +218,7 @@ public class Main {
         grafoNaoEuleriano.addVertice(7);
         grafoNaoEuleriano.addVertice(8);
 
+
         grafoNaoEuleriano.addAresta(1,2);
         grafoNaoEuleriano.addAresta(2,3);
         grafoNaoEuleriano.addAresta(2,4);
@@ -243,7 +248,7 @@ public class Main {
         System.out.println("4 - Grafo não Euleriano");      
         System.out.println("5 - Grafo Aleatório");    
         
-        Teste();
+//        Teste();
 
         int test = scan.nextInt();
         while (test != 0) {
@@ -271,6 +276,13 @@ public class Main {
                     System.out.println("Não possui esse caso de teste");
                     break;
             }
+            System.out.println("0 - Sair");
+            System.out.println("1 - Grafo não conexo");
+            System.out.println("2 - Grafo Conexo de Grau Impar");
+            System.out.println("3 - Grafo conexo de Grau par");
+            System.out.println("4 - Grafo não Euleriano");
+            System.out.println("5 - Grafo Aleatório");
+
             test = scan.nextInt();
         }
     }

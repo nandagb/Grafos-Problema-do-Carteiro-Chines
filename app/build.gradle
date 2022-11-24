@@ -33,7 +33,13 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'problema.carteiro.chines.App'
+    mainClass = 'problema.carteiro.chines.Main'
+}
+
+tasks {
+    run {
+        standardInput = System.in
+    }
 }
 
 tasks.named('test') {

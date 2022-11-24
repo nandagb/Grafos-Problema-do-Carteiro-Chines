@@ -16,7 +16,7 @@ public class Algoritmos {
     /**
      * Função que checa se o grafo é conexo.
      * Complexidade: O(n^2) -> Executa o for até n*n-1 vezes
-     * 
+     *
      * @param grafo     Grafo para ser verificado
      * @param ver       Vertice sendo verificado no momento
      * @param visitados Lista de vértices já visitados
@@ -46,7 +46,7 @@ public class Algoritmos {
         // Se todos vertices foram visitados, o grafo é conexo
         if (visitados.size() == grafo.getV())
             conexo = true;
-    
+
         return conexo;
     }
 
@@ -56,7 +56,7 @@ public class Algoritmos {
      * do autor Jayme Luiz Szwarcfiter.
      * Complexidade: O(n^3) -> checagem do grafo conexo e checagem do grau par
      * executa n vezes
-     * 
+     *
      * @param grafo grafo para ser verificado
      * @return true caso seja Euleriano, false CC
      */
@@ -100,7 +100,7 @@ public class Algoritmos {
      * Algoritmo de Hierholzer.
      * Implementado assim como descrito no relatório.
      * Complexidade: O(m) -> número máximo de arestas que ele pode percorrer
-     * 
+     *
      * @param grafo           Grafo que gerará a trilha euleriana
      * @param ver             Vértice atual sendo adicionado à trilha
      * @param trilhaEuleriana Lista que possui a trilha
@@ -146,7 +146,7 @@ public class Algoritmos {
 
     /***
      * Retorna uma lista com todos os pares de vértices com grau ímpar
-     * 
+     *
      * @param grafo a ser analisado
      * @return Lista com os vértices de grau ímpar
      */
@@ -154,7 +154,7 @@ public class Algoritmos {
         ArrayList<Integer> impares = new ArrayList<>();
         Boolean podeAdicionar = true;
 
-        // Verifica se o grau dos vértices é ímpar, se o vértice for ímpar adiona na
+        // Verifica se o grau dos vértices é ímpar, se o vértice for ímpar adiciona na
         // lista de impares
         for (Vertice ver : grafo.getListaVertices()) {
             if (ver.getGrau() % 2 != 0) {
@@ -162,7 +162,7 @@ public class Algoritmos {
                 impares.add(ver.getN());
             }
         }
-
+        int nImpares = impares.size();
 
         ArrayList<Pair<Integer, Integer>> pares = new ArrayList<>();
         int permutacoes = impares.size() * (impares.size() - 1) / 2;
@@ -191,36 +191,53 @@ public class Algoritmos {
             combinacao.add(pares.get(0));// adiciona o primeiro par na primeira combinacao
             combinacoesDePares.add(combinacao);// adiciona a primeira combinacao
         }
+
         // Achar todas as combinações que passem por todos os vértices
+        int nCombinacoesPar = nImpares - 3;
         for (int i = 0; i < perm; i++) {// par que será adicionado primeiro
             ArrayList<Pair<Integer, Integer>> combinacao = new ArrayList<>();
-            combinacao.add(pares.get(0));// adiciona o primeiro par na primeira combinacao
-            combinacoesDePares.add(combinacao);// adiciona a primeira combinacao
-            for (int j = 1; j < pares.size(); j++) {// para todos os pares depois do par adicionado
-                System.out.println("par adicionado: ");
-                System.out.println("(" + pares.get(j).getKey() + ", " + pares.get(j).getValue() + ")");
+            combinacao.add(pares.get(0));                                                                               // Adiciona o par da posição 0da lista de pares
+            for (int j = 1; j < pares.size(); j++) {                                                                    // Para todos os pares depois do par adicionado
+                System.out.println("par atual j: ");                                                                    // ----------------- //
+                System.out.println("(" + pares.get(j).getKey() + ", " + pares.get(j).getValue() + ")");                 //      Imprime      //                 //    O par atual    //
+                System.out.println("imprimindo combinacao:");                                                           // ----------------- //
+                for (int a = 0; a < combinacao.size(); a++) {                                                           // ----------------- //
+                    System.out.print("(" + combinacao.get(a).getKey() + ", " + combinacao.get(a).getValue() + ") ");    //      Imprime      //
+                }                                                                                                       //   As Combinações  //
+                System.out.println();                                                                                   // ----------------- //
                 System.out.println();
-                System.out.println("imprimindo combinacao:");
-                for (int a = 0; a < combinacao.size(); a++) {
-                    System.out.print("(" + combinacao.get(a).getKey() + ", " + combinacao.get(a).getValue() + ") ");
-                }
-                System.out.println();
-                for (int k = 0; k < combinacao.size(); k++) {// para todos os elementos de combinação
-                    if (pares.get(j).getKey() == combinacao.get(k).getKey() ||
-                            pares.get(j).getKey() == combinacao.get(k).getValue() ||
-                            pares.get(j).getValue() == combinacao.get(k).getKey() ||
-                            pares.get(j).getValue() == combinacao.get(k).getValue()) {
-                        podeAdicionar = false;
+                for (int k = 0; k < combinacao.size(); k++) {                                                           // Para todos os pares presentes na combinação atual
+                    if     (pares.get(j).getKey() == combinacao.get(k).getKey() ||                                      //
+                            pares.get(j).getKey() == combinacao.get(k).getValue() ||                                    // Se um dos valores do par atual estiver dentre os pares
+                            pares.get(j).getValue() == combinacao.get(k).getKey() ||                                    // da combinação atual
+                            pares.get(j).getValue() == combinacao.get(k).getValue()                                     //
+                    ) {
+                        podeAdicionar = false;                                                                          // Torna falso a flag de adicionar o par na combinação
                         break;
                     }
+                    if (combinacoesDePares.size() > 0) {
+                        for (ArrayList<Pair<Integer, Integer>> comb : combinacoesDePares) {
+                            if (comb.contains(pares.get(0)) && comb.get(1).equals(pares.get(j))) {
+                                podeAdicionar = false;
+                                break;
+                            }
+                        }
+                    }
                 }
-                if(podeAdicionar) combinacao.add(pares.get(j));
+                if(podeAdicionar) {                                                                                    // Se puder adicionar o par na combinação
+                    combinacao.add(pares.get(j));                                                                       // Adiciona
+                }
                 podeAdicionar = true;
             }
-            if (pares.get(1).getKey() != pares.get(0).getKey())
+            combinacoesDePares.add(combinacao);                                                                         // Adiciona a combinação atual na lista de combinações
+            nCombinacoesPar--;
+            if (pares.get(1).getKey() != pares.get(0).getKey())                                                         // Se todos os pares com o primeiro valor já foram examinados, break
                 break;
-            pares.remove(0);// atualiza o primeiro elemento
-            if (pares.size() == 1)
+            if (nCombinacoesPar == 0) {
+                pares.remove(0);                                                                                  // Remove o par do index 0
+                nCombinacoesPar = nImpares - 3;
+            }
+            if (pares.size() == 1)                                                                                      // Se o tmanho de pares for 1, break
                 break;
         }
 
@@ -314,7 +331,7 @@ public class Algoritmos {
      * Dijkstra
      * Calcula a menor distância entre o vértice fonte
      * e os demais vértices do grafo
-     * 
+     *
      * @param grafo
      * @param fonte
      */
