@@ -224,20 +224,20 @@ public class Algoritmos {
                         }
                     }
                 }
-                if(podeAdicionar) {                                                                                    // Se puder adicionar o par na combinação
+                if(podeAdicionar) {                                                                                     // Se puder adicionar o par na combinação
                     combinacao.add(pares.get(j));                                                                       // Adiciona
                 }
                 podeAdicionar = true;
             }
             combinacoesDePares.add(combinacao);                                                                         // Adiciona a combinação atual na lista de combinações
             nCombinacoesPar--;
-            if (pares.get(1).getKey() != pares.get(0).getKey())                                                         // Se todos os pares com o primeiro valor já foram examinados, break
+            if (pares.get(1).getKey() != pares.get(0).getKey() && nCombinacoesPar == 0)                                                         // Se todos os pares com o primeiro valor já foram examinados, break
                 break;
             if (nCombinacoesPar == 0) {
                 pares.remove(0);                                                                                  // Remove o par do index 0
                 nCombinacoesPar = nImpares - 3;
             }
-            if (pares.size() == 1)                                                                                      // Se o tmanho de pares for 1, break
+            if (pares.size() == 1 && nCombinacoesPar == 0)                                                                                      // Se o tmanho de pares for 1, break
                 break;
         }
 
